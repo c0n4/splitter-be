@@ -1,10 +1,13 @@
 package com.c0n4.user.repository
 
-import com.c0n4.user.domain.User
+import com.c0n4.user.repository.entity.UsersEntity
+import io.micronaut.data.annotation.Repository
+import io.micronaut.data.jpa.repository.JpaRepository
+import java.util.*
 
-interface UserRepository {
+@Repository
+interface UserRepository : JpaRepository<UsersEntity, String> {
 
-    fun createUser(user: User)
+    fun findByEmail(email: String): Optional<UsersEntity>
 
-    fun getUser(id: String): User
 }

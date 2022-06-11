@@ -7,9 +7,9 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "splitter")
-open class UsersEntity {
+open class UsersEntity() {
 
-    constructor(user: User) {
+    constructor(user: User) : this() {
         this.id = user.id
         this.username = user.name
         this.email = user.email
@@ -60,6 +60,15 @@ open class UsersEntity {
         if (password != other.password) return false
 
         return true
+    }
+
+    fun toUser(): User {
+        return User.Builder()
+            .id(id)
+            .name(username)
+            .email(email)
+            .password(password)
+            .build()
     }
 
 }
