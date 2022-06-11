@@ -1,5 +1,6 @@
 package com.c0n4.security
 
+import com.c0n4.user.service.UserService
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.AuthenticationProvider
 import io.micronaut.security.authentication.AuthenticationRequest
@@ -10,14 +11,23 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.FluxSink
 
 @Singleton
-class AuthenticationProviderUserPassword : AuthenticationProvider {
+class AuthenticationProviderUserPassword(private val userService: UserService) : AuthenticationProvider {
     override fun authenticate(
         httpRequest: HttpRequest<*>?,
         authenticationRequest: AuthenticationRequest<*, *>?
     ): Publisher<AuthenticationResponse> {
         return Flux.create({ emitter: FluxSink<AuthenticationResponse> ->
-            if (authenticationRequest?.identity == "sherlock" && authenticationRequest.secret == "password") {
-                emitter.next(AuthenticationResponse.success(authenticationRequest.identity as String))
+            var email = ""
+            var password = ""
+            if (authenticationRequest?.identity is String) {
+                email = authenticationRequest.identity as String
+            }
+            if (authenticationRequest?.secret is String) {
+                password = authenticationRequest.secret as String
+            }
+            val user = userService.validateUser(email, password)
+            if (user != null) {
+                emitter.next(AuthenticationResponse.success(user.id))
                 emitter.complete()
             } else {
                 emitter.error(AuthenticationResponse.exception())

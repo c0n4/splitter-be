@@ -32,7 +32,7 @@ class UserServiceImpl(
 
     private fun validateExistUser(email: String) {
         userRepository.findByEmail(email).ifPresent {
-            throw IllegalArgumentException("User with email ${email} already exists")
+            throw IllegalArgumentException("User with email $email already exists")
         }
     }
 
@@ -42,9 +42,15 @@ class UserServiceImpl(
         }
     }
 
-    fun getUserByEmail(email: String): User {
+    override fun getUserByEmail(email: String): User {
         return userRepository.findByEmail(email).map { it.toUser() }.orElseThrow {
             IllegalArgumentException("User not found")
+        }
+    }
+
+    override fun validateUser(email: String, password: String): User? {
+        return getUserByEmail(email).takeIf {
+            crypto.hash(password) == it.password
         }
     }
 }

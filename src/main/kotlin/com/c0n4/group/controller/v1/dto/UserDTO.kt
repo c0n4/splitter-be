@@ -9,5 +9,6 @@ data class UserDTO(val id: String?, val name: String?, val email: String?, val p
         .id(id)
         .name(name)
         .email(email)
+        .password(password)
         .build()
 }
