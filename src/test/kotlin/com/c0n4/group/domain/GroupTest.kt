@@ -18,7 +18,7 @@ internal class GroupTest {
     fun `should calculate debit with expenses`() {
         val group = getGroupWithExpenses()
 
-        val userDebts = group.getDebts()
+        val userDebts = group.getBalance()
 
         assertEquals(2, userDebts.size)
         assertEquals(BigDecimal.valueOf(10), userDebts[user1])
@@ -30,7 +30,7 @@ internal class GroupTest {
     fun `should calculate wih expenses`() {
         val group = getGroupWithoutExpense()
 
-        val userDebts = group.getDebts()
+        val userDebts = group.getBalance()
 
         assertEquals(2, userDebts.size)
         assertEquals(BigDecimal.valueOf(0), userDebts[user1])

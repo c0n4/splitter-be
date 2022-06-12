@@ -23,7 +23,7 @@ class Group private constructor(
         return getUserExpenses(userId).sumOf { it.amount }
     }
 
-    fun getDebts(): Map<User, BigDecimal> {
+    fun getBalance(): Map<User, BigDecimal> {
         val totalAmount = getTotalAmount() / BigDecimal(members.size)
         return members.associateWith { totalAmount - getUserAmount(it.id) }
     }

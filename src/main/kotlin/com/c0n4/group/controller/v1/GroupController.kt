@@ -1,5 +1,6 @@
 package com.c0n4.group.controller.v1
 
+import com.c0n4.group.controller.v1.dto.BalanceDTO
 import com.c0n4.group.controller.v1.dto.ExpenseDTO
 import com.c0n4.group.controller.v1.dto.GroupBaseDTO
 import com.c0n4.group.controller.v1.dto.GroupDTO
@@ -40,5 +41,14 @@ class GroupController constructor(private val groupService: GroupService) {
         return GroupDTO(groupService.addExpense(principal.name, expenseDTO.toExpense(groupID)))
     }
 
+    @Get("{groupID}/balance")
+    fun getBalance(principal: Principal, @PathVariable groupID: String): List<BalanceDTO> {
+        return groupService.getBalance(principal.name, groupID).map { BalanceDTO(UserDTO(it.key), it.value) }
+    }
+
+    @Get("{groupID}/debts")
+    fun getDebts(principal: Principal, @PathVariable groupID: String): List<BalanceDTO> {
+        return groupService.getBalance(principal.name, groupID).map { BalanceDTO(UserDTO(it.key), it.value) }
+    }
 
 }

@@ -14,6 +14,7 @@ import com.c0n4.user.domain.User
 import com.c0n4.user.service.UserService
 import jakarta.inject.Singleton
 import org.slf4j.LoggerFactory
+import java.math.BigDecimal
 
 @Singleton
 class GroupServiceImpl(
@@ -83,6 +84,11 @@ class GroupServiceImpl(
         group.expenses = getUpdatedExpenses(group, expense)
         log.trace("addExpense(userID: {}, expense: {}) -> {}", userID, expense, group)
         return group
+    }
+
+    override fun getBalance(userID: String, groupID: String): Map<User, BigDecimal> {
+        val group = getGroupValidatingOwner(userID, groupID)
+        return group.getBalance()
     }
 
     private fun getUpdatedExpenses(group: Group, expense: Expense): List<Expense> {
