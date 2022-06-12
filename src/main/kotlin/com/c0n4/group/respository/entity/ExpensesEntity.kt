@@ -7,10 +7,11 @@ import javax.persistence.*
 @Entity
 @Table(name = "expenses", schema = "public", catalog = "splitter")
 @IdClass(ExpensesEntityPK::class)
-open class ExpensesEntity {
+open class ExpensesEntity() {
 
-    constructor(entity: Expense) {
+    constructor(groupId: String, entity: Expense) : this() {
         this.id = entity.id
+        this.groupId = groupId
         this.amount = entity.amount
         this.description = entity.description
         this.createdAt = java.sql.Date.valueOf(entity.createdAt.toLocalDate());

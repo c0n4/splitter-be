@@ -1,10 +1,19 @@
 package com.c0n4.group.respository.entity
 
+import com.c0n4.group.domain.Group
 import javax.persistence.*
 
 @Entity
 @Table(name = "groups", schema = "public", catalog = "splitter")
-open class GroupsEntity {
+open class GroupsEntity() {
+
+    constructor(group: Group) : this() {
+        this.id = group.id
+        this.name = group.description
+        this.refMembersEntities = group.members.map { MembersEntity(group.id, it.id) }.toMutableList()
+        this.refExpensesEntities = group.expenses.map { ExpensesEntity(group.id, it) }.toMutableList()
+    }
+
     @get:Id
     @get:Column(name = "id", nullable = false, insertable = false, updatable = false)
     var id: String? = null
@@ -37,6 +46,13 @@ open class GroupsEntity {
         if (name != other.name) return false
 
         return true
+    }
+
+    fun toGroup(): Group {
+        return Group.Builder()
+            .id(id)
+            .description(name)
+            .build()
     }
 
 }

@@ -2,18 +2,23 @@ package com.c0n4.group.service
 
 import com.c0n4.common.uuid.UUIDGenerator
 import com.c0n4.group.domain.Group
+import com.c0n4.group.respository.GroupRepository
+import com.c0n4.group.respository.entity.GroupsEntity
 import com.c0n4.user.domain.User
 import jakarta.inject.Singleton
 
 @Singleton
-class GroupServiceImpl(private val uuidGenerator: UUIDGenerator) : GroupService {
+class GroupServiceImpl(private val uuidGenerator: UUIDGenerator, private val groupRepository: GroupRepository) :
+    GroupService {
 
     override fun getGroups(userID: String): List<Group> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getGroup(userID: String, idGroup: String): Group {
-        TODO("Not yet implemented")
+        return groupRepository.findById(idGroup).orElseThrow {
+            IllegalArgumentException("Group not found")
+        }.toGroup()
     }
 
     override fun createGroup(userID: String, group: Group): Group {
@@ -22,8 +27,7 @@ class GroupServiceImpl(private val uuidGenerator: UUIDGenerator) : GroupService 
             .description(group.description)
             .members(listOf(User.Builder().id(userID).build()))
             .build()
-
-
+        groupRepository.save(GroupsEntity(newGroup))
         return newGroup
     }
 

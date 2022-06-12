@@ -1,6 +1,6 @@
 package com.c0n4.user.controller.v1
 
-import com.c0n4.group.controller.v1.dto.UserDTO
+import com.c0n4.user.controller.v1.dto.UserDTO
 import com.c0n4.user.service.UserService
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller

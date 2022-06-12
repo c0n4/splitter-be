@@ -6,7 +6,13 @@ import javax.persistence.*
 @Entity
 @Table(name = "members", schema = "public", catalog = "splitter")
 @IdClass(MembersEntityPK::class)
-open class MembersEntity {
+open class MembersEntity() {
+
+    constructor(groupId: String, userId: String) : this() {
+        this.groupId = groupId
+        this.userId = userId
+    }
+
     @get:Id
     @get:Column(name = "group_id", nullable = false, insertable = false, updatable = false)
     var groupId: String? = null

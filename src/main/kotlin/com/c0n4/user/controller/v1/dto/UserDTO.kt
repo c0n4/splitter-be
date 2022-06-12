@@ -1,4 +1,4 @@
-package com.c0n4.group.controller.v1.dto
+package com.c0n4.user.controller.v1.dto
 
 import com.c0n4.user.domain.User
 

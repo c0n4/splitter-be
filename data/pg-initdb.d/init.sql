@@ -72,6 +72,3 @@ ALTER TABLE expenses
     ADD CONSTRAINT fk_expenses_to_groups FOREIGN KEY (group_id) REFERENCES groups (id) /* [jooq ignore start] */ ON DELETE CASCADE/* [jooq ignore stop] */;
 ALTER TABLE expenses
     ADD CONSTRAINT fk_expenses_to_users FOREIGN KEY (user_id) REFERENCES users (id) /* [jooq ignore start] */ ON DELETE CASCADE/* [jooq ignore stop] */;
-CREATE TABLE asdf
-(
-);
