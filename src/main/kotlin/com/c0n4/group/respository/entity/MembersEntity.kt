@@ -1,6 +1,6 @@
 package com.c0n4.group.respository.entity
 
-import com.c0n4.user.repository.entity.UsersEntity
+import com.c0n4.group.domain.Member
 import javax.persistence.*
 
 @Entity
@@ -8,9 +8,9 @@ import javax.persistence.*
 @IdClass(MembersEntityPK::class)
 open class MembersEntity() {
 
-    constructor(groupId: String, userId: String) : this() {
-        this.groupId = groupId
-        this.userId = userId
+    constructor(member: Member) : this() {
+        this.groupId = member.groupID
+        this.userId = member.userID
     }
 
     @get:Id
@@ -20,14 +20,6 @@ open class MembersEntity() {
     @get:Id
     @get:Column(name = "user_id", nullable = false, insertable = false, updatable = false)
     var userId: String? = null
-
-    @get:ManyToOne(fetch = FetchType.LAZY)
-    @get:JoinColumn(name = "group_id", referencedColumnName = "id")
-    var refGroupsEntity: GroupsEntity? = null
-
-    @get:ManyToOne(fetch = FetchType.LAZY)
-    @get:JoinColumn(name = "user_id", referencedColumnName = "id")
-    var refUsersEntity: UsersEntity? = null
 
     override fun toString(): String =
         "Entity of type: ${javaClass.name} ( " +
@@ -47,6 +39,10 @@ open class MembersEntity() {
         if (userId != other.userId) return false
 
         return true
+    }
+
+    fun toMember(): Member {
+        return Member(groupId!!, userId!!)
     }
 
 }

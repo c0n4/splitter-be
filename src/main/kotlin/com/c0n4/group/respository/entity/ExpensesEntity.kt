@@ -1,7 +1,7 @@
 package com.c0n4.group.respository.entity
 
 import com.c0n4.group.domain.Expense
-import com.c0n4.user.repository.entity.UsersEntity
+import com.c0n4.user.domain.User
 import javax.persistence.*
 
 @Entity
@@ -9,12 +9,12 @@ import javax.persistence.*
 @IdClass(ExpensesEntityPK::class)
 open class ExpensesEntity() {
 
-    constructor(groupId: String, entity: Expense) : this() {
+    constructor(entity: Expense) : this() {
         this.id = entity.id
-        this.groupId = groupId
+        this.groupId = entity.groupId
         this.amount = entity.amount
         this.description = entity.description
-        this.createdAt = java.sql.Date.valueOf(entity.createdAt.toLocalDate());
+        this.createdAt = java.sql.Date.valueOf(entity.createdAt);
         this.userId = entity.user.id
     }
 
@@ -42,14 +42,6 @@ open class ExpensesEntity() {
     @get:Column(name = "created_at", nullable = false)
     var createdAt: java.sql.Date? = null
 
-    @get:ManyToOne(fetch = FetchType.LAZY)
-    @get:JoinColumn(name = "group_id", referencedColumnName = "id")
-    var refGroupsEntity: GroupsEntity? = null
-
-    @get:ManyToOne(fetch = FetchType.LAZY)
-    @get:JoinColumn(name = "user_id", referencedColumnName = "id")
-    var refUsersEntity: UsersEntity? = null
-
     override fun toString(): String =
         "Entity of type: ${javaClass.name} ( " +
                 "id = $id " +
@@ -76,6 +68,16 @@ open class ExpensesEntity() {
         if (createdAt != other.createdAt) return false
 
         return true
+    }
+
+    fun toExpense(): Expense {
+        return Expense.Builder()
+            .id(id)
+            .user(User.Builder().id(userId).build())
+            .amount(amount)
+            .description(description)
+            .createdAt(createdAt?.toLocalDate())
+            .build()
     }
 
 }

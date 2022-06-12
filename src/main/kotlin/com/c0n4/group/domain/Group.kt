@@ -4,10 +4,10 @@ import com.c0n4.user.domain.User
 import java.math.BigDecimal
 
 class Group private constructor(
-    val id: String,
+    var id: String,
     val description: String,
-    val members: List<User>,
-    val expenses: List<Expense>,
+    var members: List<User>,
+    var expenses: List<Expense>,
 ) {
 
     private fun getTotalAmount(): BigDecimal {

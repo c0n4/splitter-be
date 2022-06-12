@@ -1,8 +1,11 @@
 package com.c0n4.group.controller.v1
 
+import com.c0n4.group.controller.v1.dto.ExpenseDTO
 import com.c0n4.group.controller.v1.dto.GroupBaseDTO
 import com.c0n4.group.controller.v1.dto.GroupDTO
-import com.c0n4.group.service.GroupService
+import com.c0n4.group.domain.Member
+import com.c0n4.group.service.group.GroupService
+import com.c0n4.user.controller.v1.dto.UserDTO
 import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
@@ -27,10 +30,15 @@ class GroupController constructor(private val groupService: GroupService) {
         return GroupDTO(groupService.createGroup(principal.name, group.toGroup()))
     }
 
-    @Put("{groupID}")
-    fun updateGroup(principal: Principal, @PathVariable groupID: String, @Body group: GroupDTO): GroupDTO {
-        group.id = groupID
-        return GroupDTO(groupService.updateGroup(principal.name, group.toGroup()))
+    @Post("{groupID}/members")
+    fun addMember(principal: Principal, @PathVariable groupID: String, @Body userDTO: UserDTO): GroupDTO {
+        return GroupDTO(groupService.addMember(principal.name, Member(groupID, userDTO.id!!)))
     }
+
+    @Post("{groupID}/expenses")
+    fun addExpense(principal: Principal, @PathVariable groupID: String, @Body expenseDTO: ExpenseDTO): GroupDTO {
+        return GroupDTO(groupService.addExpense(principal.name, expenseDTO.toExpense(groupID)))
+    }
+
 
 }

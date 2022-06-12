@@ -1,7 +1,5 @@
 package com.c0n4.user.repository.entity
 
-import com.c0n4.group.respository.entity.ExpensesEntity
-import com.c0n4.group.respository.entity.MembersEntity
 import com.c0n4.user.domain.User
 import javax.persistence.*
 
@@ -31,12 +29,6 @@ open class UsersEntity() {
     @get:Basic
     @get:Column(name = "password", nullable = false)
     var password: String? = null
-
-    @get:OneToMany(mappedBy = "refUsersEntity")
-    var refExpensesEntities: List<ExpensesEntity>? = null
-
-    @get:OneToMany(mappedBy = "refUsersEntity")
-    var refMembersEntities: List<MembersEntity>? = null
 
     override fun toString(): String =
         "Entity of type: ${javaClass.name} ( " +

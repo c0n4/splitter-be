@@ -1,5 +1,6 @@
 package com.c0n4.security
 
+import com.c0n4.user.domain.User
 import com.c0n4.user.service.UserService
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.AuthenticationProvider
@@ -25,7 +26,12 @@ class AuthenticationProviderUserPassword(private val userService: UserService) :
             if (authenticationRequest?.secret is String) {
                 password = authenticationRequest.secret as String
             }
-            val user = userService.validateUser(email, password)
+            var user: User?
+            try {
+                user = userService.validateUser(email, password)
+            } catch (e: Exception) {
+                user = null
+            }
             if (user != null) {
                 emitter.next(AuthenticationResponse.success(user.id))
                 emitter.complete()

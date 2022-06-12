@@ -2,21 +2,21 @@ package com.c0n4.user.service
 
 import com.c0n4.common.crypto.Crypto
 import com.c0n4.common.uuid.UUIDGenerator
+import com.c0n4.group.service.group.GroupServiceImpl
 import com.c0n4.user.domain.User
 import com.c0n4.user.repository.UserRepository
 import com.c0n4.user.repository.entity.UsersEntity
-import jakarta.inject.Inject
 import jakarta.inject.Singleton
+import org.slf4j.LoggerFactory
 
 @Singleton
 class UserServiceImpl(
     private val crypto: Crypto,
-    private val uuidGenerator: UUIDGenerator
-) :
-    UserService {
+    private val uuidGenerator: UUIDGenerator,
+    private val userRepository: UserRepository
+) : UserService {
 
-    @Inject
-    lateinit var userRepository: UserRepository
+    private val log = LoggerFactory.getLogger(GroupServiceImpl::class.java)
 
     override fun createUser(user: User): User {
         validateExistUser(user.email)
@@ -27,6 +27,7 @@ class UserServiceImpl(
             .name(user.name)
             .build()
         userRepository.save(UsersEntity(newUser))
+        log.trace("User created: $newUser")
         return newUser
     }
 

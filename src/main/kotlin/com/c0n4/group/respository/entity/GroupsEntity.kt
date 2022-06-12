@@ -10,8 +10,6 @@ open class GroupsEntity() {
     constructor(group: Group) : this() {
         this.id = group.id
         this.name = group.description
-        this.refMembersEntities = group.members.map { MembersEntity(group.id, it.id) }.toMutableList()
-        this.refExpensesEntities = group.expenses.map { ExpensesEntity(group.id, it) }.toMutableList()
     }
 
     @get:Id
@@ -21,12 +19,6 @@ open class GroupsEntity() {
     @get:Basic
     @get:Column(name = "name", nullable = false)
     var name: String? = null
-
-    @get:OneToMany(mappedBy = "refGroupsEntity")
-    var refExpensesEntities: List<ExpensesEntity>? = null
-
-    @get:OneToMany(mappedBy = "refGroupsEntity")
-    var refMembersEntities: List<MembersEntity>? = null
 
     override fun toString(): String =
         "Entity of type: ${javaClass.name} ( " +

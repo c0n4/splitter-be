@@ -2,26 +2,30 @@ package com.c0n4.group.domain
 
 import com.c0n4.user.domain.User
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 class Expense private constructor(
-    val id: String,
+    var id: String,
+    val groupId: String,
     val user: User,
     val description: String,
     val amount: BigDecimal,
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDate,
 ) {
 
 
     data class Builder(
         var id: String? = null,
+        var groupId: String? = null,
         var user: User? = null,
         var description: String? = null,
         var amount: BigDecimal? = null,
-        var createdAt: LocalDateTime? = null,
+        var createdAt: LocalDate? = null,
     ) {
 
         fun id(id: String?) = apply { this.id = id }
+
+        fun groupId(groupId: String?) = apply { this.groupId = groupId }
 
         fun user(user: User?) = apply { this.user = user }
 
@@ -29,15 +33,16 @@ class Expense private constructor(
 
         fun amount(amount: BigDecimal?) = apply { this.amount = amount }
 
-        fun createdAt(createdAt: LocalDateTime?) = apply { this.createdAt = createdAt }
+        fun createdAt(createdAt: LocalDate?) = apply { this.createdAt = createdAt }
 
         fun build(): Expense {
             return Expense(
                 id ?: "",
+                groupId ?: "",
                 user ?: User.Builder().build(),
                 description ?: "",
                 amount ?: BigDecimal.ZERO,
-                createdAt ?: LocalDateTime.now(),
+                createdAt ?: LocalDate.now(),
             )
         }
 
