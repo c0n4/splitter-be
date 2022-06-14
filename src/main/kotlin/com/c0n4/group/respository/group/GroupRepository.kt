@@ -9,8 +9,8 @@ interface GroupRepository {
     fun saveGroup(group: Group)
 
     fun findById(id: String): Optional<Group>
-    
+
     companion object {
-        const val GROUP = "Group"
+        const val GROUP_ENTITY_NAME = "Group"
     }
 }

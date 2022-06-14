@@ -8,7 +8,7 @@ interface UserService {
 
     fun getUser(id: String): User
 
-    fun getUserByEmail(email: String): User
+    fun getUserByUsername(username: String): User
 
-    fun validateUser(email: String, password: String): User?
+    fun validateUser(username: String, password: String): User?
 }

@@ -28,7 +28,7 @@ class MemberServiceImpl(
     }
 
     override fun findByUserId(userId: String): List<Member> {
-        val members = memberRepository.findByUserId(userId).map { it.toMember() }
+        val members = memberRepository.findByUserId(userId).map { it }
         log.trace("findByUserId(userId: {}) -> {}", userId, members)
         return members
     }

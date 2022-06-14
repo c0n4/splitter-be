@@ -1,4 +1,5 @@
 micronaut:
+  context-path: /api
   application:
     name: splitterBe
   security:
@@ -9,6 +10,9 @@ micronaut:
           secret:
             generator:
               secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
+  server:
+    cors:
+      enabled: true
 datasources:
   default:
     url: jdbc:postgresql://localhost:5432/splitter
@@ -22,3 +26,4 @@ netty:
   default:
     allocator:
       max-order: 3
+

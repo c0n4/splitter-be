@@ -14,7 +14,7 @@ open class ExpensesEntity() {
         this.groupId = entity.groupId
         this.amount = entity.amount
         this.description = entity.description
-        this.createdAt = java.sql.Date.valueOf(entity.createdAt);
+        this.createdAt = java.sql.Timestamp.valueOf(entity.createdAt);
         this.userId = entity.user.id
     }
 
@@ -40,7 +40,7 @@ open class ExpensesEntity() {
 
     @get:Basic
     @get:Column(name = "created_at", nullable = false)
-    var createdAt: java.sql.Date? = null
+    var createdAt: java.sql.Timestamp? = null
 
     override fun toString(): String =
         "Entity of type: ${javaClass.name} ( " +
@@ -76,7 +76,7 @@ open class ExpensesEntity() {
             .user(User.Builder().id(userId).build())
             .amount(amount)
             .description(description)
-            .createdAt(createdAt?.toLocalDate())
+            .createdAt(createdAt?.toLocalDateTime())
             .build()
     }
 

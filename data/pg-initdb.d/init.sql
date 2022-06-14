@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users
 (
     id       VARCHAR(255)         NOT NULL,
-    email    VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
+    name     VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL
     );
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS expenses
     user_id     VARCHAR(255)         NOT NULL,
     description VARCHAR(255) NOT NULL,
     amount      DECIMAL      NOT NULL,
-    created_at  DATE         NOT NULL DEFAULT LOCALTIMESTAMP
+    created_at  TIMESTAMP         NOT NULL DEFAULT LOCALTIMESTAMP
     );
 
 ALTER TABLE members

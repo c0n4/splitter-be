@@ -7,7 +7,7 @@ import com.c0n4.group.domain.Expense
 import com.c0n4.group.domain.Group
 import com.c0n4.group.domain.Member
 import com.c0n4.group.respository.group.GroupRepository
-import com.c0n4.group.respository.group.GroupRepository.Companion.GROUP
+import com.c0n4.group.respository.group.GroupRepository.Companion.GROUP_ENTITY_NAME
 import com.c0n4.group.service.expense.ExpenseService
 import com.c0n4.group.service.member.MemberService
 import com.c0n4.user.domain.User
@@ -45,7 +45,7 @@ class GroupServiceImpl(
 
     private fun getGroupValidatingOwner(userID: String, idGroup: String): Group {
         val group = groupRepository.findById(idGroup).orElseThrow {
-            NotFoundException(GROUP, idGroup)
+            NotFoundException(GROUP_ENTITY_NAME, idGroup)
         }
         validateUserInGroup(userID, group)
         group.members = memberService.getUsers(idGroup)
@@ -62,12 +62,12 @@ class GroupServiceImpl(
         return group
     }
 
-    override fun addMember(userID: String, member: Member): Group {
-        val group = getGroupValidatingOwner(userID, member.groupID)
-        val user = userService.getUser(member.userID)
-        memberService.saveMember(member)
+    override fun addMember(userID: String, groupID: String, username: String): Group {
+        val group = getGroupValidatingOwner(userID, groupID)
+        val user = userService.getUserByUsername(username)
+        memberService.saveMember(Member(groupID, user.id))
         group.members = getUpdatedMembers(group, user)
-        log.trace("addMember(userID: {}, member: {}) -> {}", userID, member, group)
+        log.trace("addMember(userID: {}, groupID: {}, username: {} ) -> {}", userID, groupID, username, group)
         return group
     }
 
@@ -105,7 +105,7 @@ class GroupServiceImpl(
 
     private fun getGroup(idGroup: String): Group {
         return groupRepository.findById(idGroup).orElseThrow {
-            NotFoundException(GROUP, idGroup)
+            NotFoundException(GROUP_ENTITY_NAME, idGroup)
         }
     }
 }

@@ -9,8 +9,8 @@ open class UsersEntity() {
 
     constructor(user: User) : this() {
         this.id = user.id
-        this.username = user.name
-        this.email = user.email
+        this.name = user.name
+        this.username = user.username
         this.password = user.password
     }
 
@@ -19,12 +19,12 @@ open class UsersEntity() {
     var id: String? = null
 
     @get:Basic
-    @get:Column(name = "email", nullable = false)
-    var email: String? = null
-
-    @get:Basic
     @get:Column(name = "username", nullable = false)
     var username: String? = null
+
+    @get:Basic
+    @get:Column(name = "name", nullable = false)
+    var name: String? = null
 
     @get:Basic
     @get:Column(name = "password", nullable = false)
@@ -33,8 +33,8 @@ open class UsersEntity() {
     override fun toString(): String =
         "Entity of type: ${javaClass.name} ( " +
                 "id = $id " +
-                "email = $email " +
                 "username = $username " +
+                "name = $name " +
                 "password = $password " +
                 ")"
 
@@ -47,8 +47,8 @@ open class UsersEntity() {
         other as UsersEntity
 
         if (id != other.id) return false
-        if (email != other.email) return false
         if (username != other.username) return false
+        if (name != other.name) return false
         if (password != other.password) return false
 
         return true
@@ -57,8 +57,8 @@ open class UsersEntity() {
     fun toUser(): User {
         return User.Builder()
             .id(id)
-            .name(username)
-            .email(email)
+            .name(name)
+            .username(username)
             .password(password)
             .build()
     }

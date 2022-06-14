@@ -1,10 +1,13 @@
 package com.c0n4.user.service
 
 import com.c0n4.common.crypto.Crypto
+import com.c0n4.common.error.AlreadyExistsException
+import com.c0n4.common.error.NotFoundException
 import com.c0n4.common.uuid.UUIDGenerator
 import com.c0n4.group.service.group.GroupServiceImpl
 import com.c0n4.user.domain.User
 import com.c0n4.user.repository.UserRepository
+import com.c0n4.user.repository.UserRepository.Companion.USER_ENTITY_NAME
 import com.c0n4.user.repository.entity.UsersEntity
 import jakarta.inject.Singleton
 import org.slf4j.LoggerFactory
@@ -19,9 +22,9 @@ class UserServiceImpl(
     private val log = LoggerFactory.getLogger(GroupServiceImpl::class.java)
 
     override fun createUser(user: User): User {
-        validateExistUser(user.email)
+        validateExistUser(user.username)
         val newUser = User.Builder()
-            .email(user.email)
+            .username(user.username)
             .password(crypto.hash(user.password))
             .id(uuidGenerator.getUUID())
             .name(user.name)
@@ -31,26 +34,26 @@ class UserServiceImpl(
         return newUser
     }
 
-    private fun validateExistUser(email: String) {
-        userRepository.findByEmail(email).ifPresent {
-            throw IllegalArgumentException("User with email $email already exists")
+    private fun validateExistUser(username: String) {
+        userRepository.findByUsername(username).ifPresent {
+            throw AlreadyExistsException(USER_ENTITY_NAME, username)
         }
     }
 
     override fun getUser(id: String): User {
         return userRepository.findById(id).map { it.toUser() }.orElseThrow {
-            IllegalArgumentException("User not found")
+            NotFoundException(USER_ENTITY_NAME, id)
         }
     }
 
-    override fun getUserByEmail(email: String): User {
-        return userRepository.findByEmail(email).map { it.toUser() }.orElseThrow {
-            IllegalArgumentException("User not found")
+    override fun getUserByUsername(username: String): User {
+        return userRepository.findByUsername(username).map { it.toUser() }.orElseThrow {
+            NotFoundException(USER_ENTITY_NAME, username)
         }
     }
 
-    override fun validateUser(email: String, password: String): User? {
-        return getUserByEmail(email).takeIf {
+    override fun validateUser(username: String, password: String): User? {
+        return getUserByUsername(username).takeIf {
             crypto.hash(password) == it.password
         }
     }

@@ -18,17 +18,17 @@ class AuthenticationProviderUserPassword(private val userService: UserService) :
         authenticationRequest: AuthenticationRequest<*, *>?
     ): Publisher<AuthenticationResponse> {
         return Flux.create({ emitter: FluxSink<AuthenticationResponse> ->
-            var email = ""
+            var username = ""
             var password = ""
             if (authenticationRequest?.identity is String) {
-                email = authenticationRequest.identity as String
+                username = authenticationRequest.identity as String
             }
             if (authenticationRequest?.secret is String) {
                 password = authenticationRequest.secret as String
             }
             var user: User?
             try {
-                user = userService.validateUser(email, password)
+                user = userService.validateUser(username, password)
             } catch (e: Exception) {
                 user = null
             }

@@ -8,6 +8,10 @@ import java.util.*
 @Repository
 interface UserRepository : JpaRepository<UsersEntity, String> {
 
-    fun findByEmail(email: String): Optional<UsersEntity>
+    fun findByUsername(username: String): Optional<UsersEntity>
 
+
+    companion object {
+        const val USER_ENTITY_NAME = "User"
+    }
 }

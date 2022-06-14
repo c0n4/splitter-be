@@ -2,17 +2,17 @@ package com.c0n4.group.controller.v1.dto
 
 import com.c0n4.group.domain.Expense
 import com.c0n4.user.domain.User
-import io.micronaut.core.convert.format.Format
+import com.fasterxml.jackson.annotation.JsonFormat
 import java.math.BigDecimal
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class ExpenseDTO(
     val id: String?,
     val name: String,
     val owner: String,
     val amount: BigDecimal,
-    @Format("yyyy-MM-dd")
-    val createdAt: LocalDate,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    val createdAt: LocalDateTime,
 ) {
     constructor(expense: Expense) : this(
         expense.id,

@@ -2,7 +2,7 @@ package com.c0n4.group.domain
 
 import com.c0n4.user.domain.User
 import java.math.BigDecimal
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 class Expense private constructor(
     var id: String,
@@ -10,7 +10,7 @@ class Expense private constructor(
     val user: User,
     val description: String,
     val amount: BigDecimal,
-    val createdAt: LocalDate,
+    val createdAt: LocalDateTime,
 ) {
 
 
@@ -20,7 +20,7 @@ class Expense private constructor(
         var user: User? = null,
         var description: String? = null,
         var amount: BigDecimal? = null,
-        var createdAt: LocalDate? = null,
+        var createdAt: LocalDateTime? = null,
     ) {
 
         fun id(id: String?) = apply { this.id = id }
@@ -33,7 +33,7 @@ class Expense private constructor(
 
         fun amount(amount: BigDecimal?) = apply { this.amount = amount }
 
-        fun createdAt(createdAt: LocalDate?) = apply { this.createdAt = createdAt }
+        fun createdAt(createdAt: LocalDateTime?) = apply { this.createdAt = createdAt }
 
         fun build(): Expense {
             return Expense(
@@ -42,7 +42,7 @@ class Expense private constructor(
                 user ?: User.Builder().build(),
                 description ?: "",
                 amount ?: BigDecimal.ZERO,
-                createdAt ?: LocalDate.now(),
+                createdAt ?: LocalDateTime.now(),
             )
         }
 
