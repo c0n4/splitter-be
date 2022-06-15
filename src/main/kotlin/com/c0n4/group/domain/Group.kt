@@ -15,7 +15,7 @@ class Group private constructor(
     }
 
     private fun getUserExpenses(userId: String): List<Expense> {
-        return expenses.filter { userId != it.user.id }
+        return expenses.filter { userId == it.user.id }
     }
 
     private fun getUserAmount(userId: String?): BigDecimal {

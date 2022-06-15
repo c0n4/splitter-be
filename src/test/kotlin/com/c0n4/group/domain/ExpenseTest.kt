@@ -3,13 +3,13 @@ package com.c0n4.group.domain
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 internal class ExpenseTest {
 
     @Test
     fun buildExpense() {
-        val now = LocalDate.now()
+        val now = LocalDateTime.now()
         val amount = BigDecimal.valueOf(100.0)
 
         val expense = Expense.Builder()

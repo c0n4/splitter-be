@@ -4,7 +4,6 @@ import com.c0n4.group.controller.v1.dto.GroupBaseDTO
 import com.c0n4.group.controller.v1.dto.GroupDTO
 import com.c0n4.group.domain.Group
 import com.c0n4.group.service.group.GroupService
-import org.junit.Ignore
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -29,13 +28,7 @@ internal class GroupControllerTest {
         .members(emptyList())
         .expenses(emptyList())
         .build()
-
-    private val groupUpdated = Group.Builder()
-        .id("id")
-        .description("description")
-        .members(emptyList())
-        .expenses(emptyList())
-        .build()
+    
 
     private val groupDTO = GroupDTO(
         group
@@ -60,11 +53,4 @@ internal class GroupControllerTest {
         assertEquals(groupDTO, groupActual)
     }
 
-    @Test
-    @Ignore
-    fun createGroup() {
-        Mockito.`when`(groupService.createGroup(userId, group)).thenReturn(groupUpdated)
-        val groupActual = groupController.createGroup(principal, groupDTO)
-        assertEquals(groupDTO, groupActual)
-    }
 }

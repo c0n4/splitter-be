@@ -21,8 +21,8 @@ internal class GroupTest {
         val userDebts = group.getBalance()
 
         assertEquals(2, userDebts.size)
-        assertEquals(BigDecimal.valueOf(10), userDebts[user1])
-        assertEquals(BigDecimal.valueOf(-10), userDebts[user2])
+        assertEquals(BigDecimal.valueOf(-10), userDebts[user1])
+        assertEquals(BigDecimal.valueOf(10), userDebts[user2])
     }
 
 
