@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS expenses
     user_id     VARCHAR(255)         NOT NULL,
     description VARCHAR(255) NOT NULL,
     amount      DECIMAL      NOT NULL,
-    created_at  TIMESTAMP         NOT NULL DEFAULT LOCALTIMESTAMP
-    );
+    created_at  TIMESTAMP  WITH TIME ZONE       NOT NULL
+                               );
 
 ALTER TABLE members
 DROP CONSTRAINT IF EXISTS fk_members_to_groups;

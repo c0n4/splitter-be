@@ -4,22 +4,22 @@ import com.c0n4.group.domain.Expense
 import com.c0n4.user.domain.User
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 data class ExpenseDTO(
     val id: String?,
     val name: String,
     val owner: String,
     val amount: BigDecimal,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    val createdAt: LocalDateTime,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ssZ")
+    val createdAt: ZonedDateTime,
 ) {
     constructor(expense: Expense) : this(
         expense.id,
         expense.description,
         expense.user.id,
         expense.amount,
-        expense.createdAt
+        expense.createdAt,
     )
 
     fun toExpense(): Expense {

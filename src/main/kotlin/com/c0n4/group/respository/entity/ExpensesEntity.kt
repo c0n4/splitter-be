@@ -2,6 +2,7 @@ package com.c0n4.group.respository.entity
 
 import com.c0n4.group.domain.Expense
 import com.c0n4.user.domain.User
+import java.time.OffsetDateTime
 import javax.persistence.*
 
 @Entity
@@ -14,7 +15,7 @@ open class ExpensesEntity() {
         this.groupId = entity.groupId
         this.amount = entity.amount
         this.description = entity.description
-        this.createdAt = java.sql.Timestamp.valueOf(entity.createdAt);
+        this.createdAt = OffsetDateTime.from(entity.createdAt);
         this.userId = entity.user.id
     }
 
@@ -40,7 +41,7 @@ open class ExpensesEntity() {
 
     @get:Basic
     @get:Column(name = "created_at", nullable = false)
-    var createdAt: java.sql.Timestamp? = null
+    var createdAt: OffsetDateTime? = null
 
     override fun toString(): String =
         "Entity of type: ${javaClass.name} ( " +
@@ -76,7 +77,7 @@ open class ExpensesEntity() {
             .user(User.Builder().id(userId).build())
             .amount(amount)
             .description(description)
-            .createdAt(createdAt?.toLocalDateTime())
+            .createdAt(createdAt?.toZonedDateTime())
             .build()
     }
 
