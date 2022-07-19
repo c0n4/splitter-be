@@ -48,3 +48,5 @@ class Expense private constructor(
 
     }
 }
+
+fun List<Expense>.getTotalAmount(): BigDecimal = sumOf { it.amount }

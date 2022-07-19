@@ -10,7 +10,7 @@ import java.security.Principal
 
 @Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller("v1/groups")
-class GroupController constructor(private val groupService: GroupService) {
+class GroupController (private val groupService: GroupService) {
 
     @Get()
     fun getGroups(principal: Principal): List<GroupBaseDTO> {
@@ -43,11 +43,6 @@ class GroupController constructor(private val groupService: GroupService) {
 
     @Get("{groupID}/balance")
     fun getBalance(principal: Principal, @PathVariable groupID: String): List<BalanceDTO> {
-        return groupService.getBalance(principal.name, groupID).map { BalanceDTO(UserDTO(it.key), it.value) }
-    }
-
-    @Get("{groupID}/debts")
-    fun getDebts(principal: Principal, @PathVariable groupID: String): List<BalanceDTO> {
         return groupService.getBalance(principal.name, groupID).map { BalanceDTO(UserDTO(it.key), it.value) }
     }
 

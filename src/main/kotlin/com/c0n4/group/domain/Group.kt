@@ -10,10 +10,6 @@ class Group private constructor(
     var expenses: List<Expense>,
 ) {
 
-    private fun getTotalAmount(): BigDecimal {
-        return expenses.sumOf { it.amount }
-    }
-
     private fun getUserExpenses(userId: String): List<Expense> {
         return expenses.filter { userId == it.user.id }
     }
@@ -24,7 +20,7 @@ class Group private constructor(
     }
 
     fun getBalance(): Map<User, BigDecimal> {
-        val totalAmount = getTotalAmount() / BigDecimal(members.size)
+        val totalAmount = expenses.getTotalAmount() / BigDecimal(members.size)
         return members.associateWith { totalAmount - getUserAmount(it.id) }
     }
 
