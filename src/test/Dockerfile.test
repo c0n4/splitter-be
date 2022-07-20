@@ -1,0 +1,8 @@
+FROM gradle:7.5-jdk17-alpine
+
+ENV ROOT_FOLDER splitter-be
+
+RUN mkdir /$ROOT_FOLDER
+COPY ../.. /$ROOT_FOLDER
+
+WORKDIR /$ROOT_FOLDER

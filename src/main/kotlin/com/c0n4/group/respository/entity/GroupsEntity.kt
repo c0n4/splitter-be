@@ -5,12 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "groups", schema = "public", catalog = "splitter")
-open class GroupsEntity() {
-
-    constructor(group: Group) : this() {
-        this.id = group.id
-        this.name = group.description
-    }
+open class GroupsEntity {
 
     @get:Id
     @get:Column(name = "id", nullable = false, insertable = false, updatable = false)
@@ -45,6 +40,15 @@ open class GroupsEntity() {
             .id(id)
             .description(name)
             .build()
+    }
+
+    companion object {
+        fun fromGroup(group: Group) : GroupsEntity {
+            val groupsEntity = GroupsEntity()
+            groupsEntity.id = group.id
+            groupsEntity.name = group.description
+            return groupsEntity
+        }
     }
 
 }

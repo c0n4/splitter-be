@@ -1,12 +1,14 @@
 version: '3.7' # specify docker-compose version
 
 services:
-  api:
+  api-test:
     build:
       context: ../..
-      dockerfile: Dockerfile.test
-    command: [ "sh", "-c", "gradle --no-daemon run --fail-fast --console plain --stacktrace" ]
-  postgres:
+      dockerfile: Dockerfile
+    command: [ "sh", "-c", "gradle --no-daemon test --fail-fast --console plain --stacktrace" ]
+    ports:
+      - "8080:8080"
+  postgres-test:
     image: postgres
     ports:
       - "5432:5432"

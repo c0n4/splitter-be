@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.jpa") version "1.6.21"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("io.micronaut.application") version "3.4.1"
+    id("com.avast.gradle.docker-compose") version "0.16.8"
 }
 
 version = "0.1"
@@ -73,6 +74,18 @@ micronaut {
         annotations("com.c0n4.*")
     }
 }
+
+test {
+    testLogging {
+        events "PASSED", "SKIPPED", "FAILED", "STANDARD_OUT", "STANDARD_ERROR"
+    }
+}
+
+dockerCompose {
+    useComposeFiles.add("src/test/docker-compose.yml")
+    isRequiredBy(tasks.test)
+}
+
 
 
 

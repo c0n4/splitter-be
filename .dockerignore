@@ -1,0 +1,6 @@
+build/
+*.idea
+README.md
+Dockerfile
+src/test/docker-compose.yml
+.gitignore

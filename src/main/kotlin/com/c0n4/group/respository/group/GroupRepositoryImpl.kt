@@ -11,7 +11,7 @@ class GroupRepositoryImpl(
 ) : GroupRepository {
 
     override fun saveGroup(group: Group) {
-        groupRepositoryJPA.saveAndFlush(GroupsEntity(group))
+        groupRepositoryJPA.saveAndFlush(GroupsEntity.fromGroup(group))
     }
 
     override fun findById(id: String): Optional<Group> {
